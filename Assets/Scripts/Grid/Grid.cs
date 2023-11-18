@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DefaultNamespace.Camera;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -9,11 +10,13 @@ namespace Grid
     {
         private GridElement.Factory _gridElementFactory;
         private List<GridElement> _activeElements = new List<GridElement>();
+        private CameraAdjuster _adjuster;
 
         [Inject]
-        private void Inject(GridElement.Factory gridElementFactory)
+        private void Inject(GridElement.Factory gridElementFactory, CameraAdjuster adjuster)
         {
             _gridElementFactory = gridElementFactory;
+            _adjuster = adjuster;
         }
 
         private void Awake()
@@ -40,6 +43,8 @@ namespace Grid
                     _activeElements.Add(newGridElement);
                 }
             }
+
+            _adjuster.AdjustTargetGroup(_activeElements);
         }
     }
 }
