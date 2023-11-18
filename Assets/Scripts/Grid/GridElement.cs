@@ -7,15 +7,20 @@ namespace Grid
     {
         private IMemoryPool _pool;
 
+        public void Despawn()
+        {
+            _pool.Despawn(this);
+        }
 
         public void OnDespawned()
         {
-            _pool.Despawn(this);
+            gameObject.SetActive(false);
         }
 
         public void OnSpawned(IMemoryPool pool)
         {
             _pool = pool;
+            gameObject.SetActive(true);
         }
 
         public class Factory : PlaceholderFactory<GridElement> { }

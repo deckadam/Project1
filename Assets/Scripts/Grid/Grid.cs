@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -20,12 +21,15 @@ namespace Grid
             Initialize(3);
         }
 
+        [Button]
         public void Initialize(int gridSize)
         {
             foreach (var activeElement in _activeElements)
             {
-                activeElement.OnDespawned();
+                activeElement.Despawn();
             }
+
+            _activeElements.Clear();
 
             for (var i = 0; i < gridSize; i++)
             {
