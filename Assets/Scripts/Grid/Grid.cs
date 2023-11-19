@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using DefaultNamespace.Camera;
+using Input.Camera;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -9,7 +9,7 @@ namespace Grid
     public class Grid : MonoBehaviour
     {
         private GridElement.Factory _gridElementFactory;
-        private List<GridElement> _activeElements = new List<GridElement>();
+        private Dictionary<Vector2Int, GridElement> _activeElements = new Dictionary<Vector2Int, GridElement>();
         private CameraAdjuster _adjuster;
 
         [Inject]
@@ -29,7 +29,7 @@ namespace Grid
         {
             foreach (var activeElement in _activeElements)
             {
-                activeElement.Despawn();
+                activeElement.Value.Despawn();
             }
 
             _activeElements.Clear();
@@ -39,12 +39,19 @@ namespace Grid
                 for (var j = 0; j < gridSize; j++)
                 {
                     var newGridElement = _gridElementFactory.Create();
-                    newGridElement.transform.position = new Vector3(i, j, 0);
-                    _activeElements.Add(newGridElement);
+                    var pos = new Vector2Int(i, j);
+                    newGridElement.Initialize(pos, this);
+                    _activeElements[pos] = newGridElement;
                 }
             }
 
-            _adjuster.AdjustTargetGroup(_activeElements);
+            _adjuster.AdjustTargetGroup(new GridElement[]
+            {
+                _activeElements[Vector2Int.zero],
+                _activeElements[new Vector2Int(gridSize-1, gridSize-1)]
+            });
         }
+
+        public void InformChange(GridElement changedElement) { }
     }
 }

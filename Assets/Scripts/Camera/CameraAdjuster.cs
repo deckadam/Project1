@@ -4,7 +4,7 @@ using Grid;
 using UnityEngine;
 using Zenject;
 
-namespace DefaultNamespace.Camera
+namespace Input.Camera
 {
     public class CameraAdjuster
     {
@@ -17,7 +17,7 @@ namespace DefaultNamespace.Camera
             _targetGroup = targetGroup;
         }
 
-        public void AdjustTargetGroup(List<GridElement> targets)
+        public void AdjustTargetGroup(GridElement[] targets)
         {
             foreach (var t in _targetGroup.m_Targets)
             {
@@ -33,7 +33,7 @@ namespace DefaultNamespace.Camera
             }
         }
 
-        private GridElement[] GetOutliners(List<GridElement> elements)
+        private GridElement[] GetOutliners(GridElement[] elements)
         {
             var outliners = new GridElement[2]
             {
