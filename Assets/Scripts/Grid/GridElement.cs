@@ -9,12 +9,14 @@ namespace Grid
         [SerializeField] private GameObject _xObject;
 
         public bool IsMarked { get; private set; }
+        public Vector2Int Index { get; private set; }
 
         private IMemoryPool _pool;
         private Grid _grid;
 
         public void Initialize(Vector2Int pos, Grid grid)
         {
+            Index = pos;
             transform.position = pos.ToVector3();
             _grid = grid;
         }
@@ -27,7 +29,6 @@ namespace Grid
             }
 
             _xObject.SetActive(true);
-            _grid.InformChange(this);
             IsMarked = true;
 
             _grid.InformChange(this);
