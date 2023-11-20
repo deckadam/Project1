@@ -12,13 +12,13 @@ namespace Grid
         public Vector2Int Index { get; private set; }
 
         private IMemoryPool _pool;
-        private Grid _grid;
+        private GridSystem _gridSystem;
 
-        public void Initialize(Vector2Int pos, Grid grid)
+        public void Initialize(Vector2Int pos, GridSystem gridSystem)
         {
             Index = pos;
             transform.position = pos.ToVector3();
-            _grid = grid;
+            _gridSystem = gridSystem;
         }
 
         public void SetMarked()
@@ -31,7 +31,7 @@ namespace Grid
             _xObject.SetActive(true);
             IsMarked = true;
 
-            _grid.InformChange(this);
+            _gridSystem.InformChange(this);
         }
 
         public void SetUnmarked()

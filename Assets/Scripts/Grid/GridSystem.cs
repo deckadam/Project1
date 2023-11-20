@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Input.Camera;
 using Sirenix.OdinInspector;
@@ -6,8 +7,9 @@ using Zenject;
 
 namespace Grid
 {
-    public class Grid : MonoBehaviour
+    public class GridSystem : MonoBehaviour
     {
+        public event Action OnMatchEvent;
         private GridElement.Factory _gridElementFactory;
         private Dictionary<Vector2Int, GridElement> _activeElements = new Dictionary<Vector2Int, GridElement>();
         private CameraAdjuster _adjuster;
@@ -54,9 +56,9 @@ namespace Grid
 
         public void InformChange(GridElement changedElement)
         {
-            var connectedElements = new List<GridElement> {changedElement};
+            var connectedElements = new List<GridElement> { changedElement };
             var items = GetConnectedElements(changedElement, connectedElements);
-            
+
             if (items.Count < 3)
             {
                 return;
@@ -66,6 +68,8 @@ namespace Grid
             {
                 gridElement.SetUnmarked();
             }
+
+            OnMatchEvent?.Invoke();
         }
 
         private List<GridElement> GetConnectedElements(GridElement baseItem, List<GridElement> connectedElements)

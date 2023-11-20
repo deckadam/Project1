@@ -9,6 +9,7 @@ namespace Input
     public class ContextInstaller : MonoInstaller
     {
         [SerializeField]private GridElement _gridElementPrefab;
+        [SerializeField]private GridSystem _gridSystem;
         [SerializeField]private CinemachineTargetGroup _cinemachineTargetGroup;
         [SerializeField] private UnityEngine.Camera _camera;
         
@@ -21,6 +22,7 @@ namespace Input
 
             Container.BindInstance(_cinemachineTargetGroup).AsSingle();
             Container.BindInstance(_camera).AsSingle();
+            Container.BindInstance(_gridSystem).AsSingle();
             Container.Bind<CameraAdjuster>().AsSingle();
         }
     }
